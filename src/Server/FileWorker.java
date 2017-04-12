@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * Created by alex on 16.3.17.
  */
-public class FileWorker {
+class FileWorker {
 
     private final String LAST_NAME = "last_name";
     private final String FIRST_NAME = "first_name";
@@ -36,12 +36,12 @@ public class FileWorker {
     private Model tableModel;
     private JTextArea textArea;
 
-    public FileWorker(Session serverSession){
+    FileWorker(Session serverSession){
         tableModel = serverSession.getTableModel();
         textArea = serverSession.getTextArea();
     }
 
-    public void saveFile(String saveName){
+    void saveFile(String saveName){
         try {
                 DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
                 DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
@@ -84,16 +84,14 @@ public class FileWorker {
                     transformer.transform(source, result);
 
                 }
-        } catch (ParserConfigurationException pce) {
-            textArea.append("Can not save "+saveName);
-            JOptionPane.showMessageDialog(null, "Не удалось сохранить файл", "Ошибка", JOptionPane.ERROR_MESSAGE | JOptionPane.OK_OPTION);
-        } catch (TransformerException tfe) {
+            textArea.append("Save "+saveName);
+        } catch (ParserConfigurationException | TransformerException pce) {
             textArea.append("Can not save "+saveName);
             JOptionPane.showMessageDialog(null, "Не удалось сохранить файл", "Ошибка", JOptionPane.ERROR_MESSAGE | JOptionPane.OK_OPTION);
         }
     }
 
-    public void openXMLFile(String fileName) {
+    void openXMLFile(String fileName) {
             try {
                 SAXParserFactory factory = SAXParserFactory.newInstance();
                 SAXParser saxParser = factory.newSAXParser();
@@ -141,6 +139,7 @@ public class FileWorker {
 
                 };
                 saxParser.parse(new File(fileName+"."+EXTENSION), handler);
+                textArea.append("Open "+fileName);
             } catch (Exception e) {
                 textArea.append("Can not open "+fileName);
                 e.printStackTrace();

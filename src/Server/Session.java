@@ -176,41 +176,41 @@ public class Session implements Runnable {
     }
 
     private void nextPage() throws IOException, ClassNotFoundException {
-        String where = (String) inputStream.readObject();
-        jTextArea.append("Command get from " + where + "\n");
-        Model table = (where.equals(Constants.MAIN_PANEL)) ? tableModel : searchTableModel;
+        String typeOfPanel = (String) inputStream.readObject();
+        jTextArea.append("Command get from " + typeOfPanel + "\n");
+        Model table = (typeOfPanel.equals(Constants.MAIN_PANEL)) ? tableModel : searchTableModel;
         table.nextPage();
         sendStudentArray(table);
     }
 
     private void prevPage() throws IOException, ClassNotFoundException {
-        String where = (String) inputStream.readObject();
-        jTextArea.append("Command get from " + where + "\n");
-        Model table = (where.equals(Constants.MAIN_PANEL)) ? tableModel : searchTableModel;
+        String typeOfPanel = (String) inputStream.readObject();
+        jTextArea.append("Command get from " + typeOfPanel + "\n");
+        Model table = (typeOfPanel.equals(Constants.MAIN_PANEL)) ? tableModel : searchTableModel;
         table.prevPage();
         sendStudentArray(table);
     }
 
     private void firstPage() throws IOException, ClassNotFoundException {
-        String where = (String) inputStream.readObject();
-        jTextArea.append("Command get from " + where + "\n");
-        Model table = (where.equals(Constants.MAIN_PANEL)) ? tableModel : searchTableModel;
+        String typeOfPanel = (String) inputStream.readObject();
+        jTextArea.append("Command get from " + typeOfPanel + "\n");
+        Model table = (typeOfPanel.equals(Constants.MAIN_PANEL)) ? tableModel : searchTableModel;
         table.firstPage();
         sendStudentArray(table);
     }
 
     private void lastPage() throws IOException, ClassNotFoundException {
-        String where = (String) inputStream.readObject();
-        jTextArea.append("Command get from " + where + "\n");
-        Model table = (where.equals(Constants.MAIN_PANEL)) ? tableModel : searchTableModel;
+        String typeOfPanel = (String) inputStream.readObject();
+        jTextArea.append("Command get from " + typeOfPanel + "\n");
+        Model table = (typeOfPanel.equals(Constants.MAIN_PANEL)) ? tableModel : searchTableModel;
         table.lastPage();
         sendStudentArray(table);
     }
 
     private void changeStudentOnPage() throws IOException, ClassNotFoundException {
-        String where = (String) inputStream.readObject();
-        jTextArea.append("Command get from " + where + "\n");
-        Model table = (where.equals(Constants.MAIN_PANEL)) ? tableModel : searchTableModel;
+        String typeOfPanel = (String) inputStream.readObject();
+        jTextArea.append("Command get from " + typeOfPanel + "\n");
+        Model table = (typeOfPanel.equals(Constants.MAIN_PANEL)) ? tableModel : searchTableModel;
         String change = (String) inputStream.readObject();
         jTextArea.append("Change student on page number on" + change + "\n");
         table.setStudentOnPage(Integer.parseInt(change));

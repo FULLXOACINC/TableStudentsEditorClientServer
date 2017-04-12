@@ -108,7 +108,6 @@ public class MainWindow {
             }
         });
 
-
         menuBar.add(table);
         return menuBar;
     }
@@ -257,20 +256,20 @@ public class MainWindow {
         }
     }
 
-    public StudentTable getStudentTable() {
+    StudentTable getStudentTable() {
         return studentTable;
     }
 
-    public StudentTable getSearchPanel() {
+    StudentTable getSearchPanel() {
         return searchPanel;
     }
 
-    public Client getClient() {
+    Client getClient() {
         return client;
     }
 
 
-    public void setConnect(boolean connect) {
+    void setConnect(boolean connect) {
         this.connect = connect;
     }
 
