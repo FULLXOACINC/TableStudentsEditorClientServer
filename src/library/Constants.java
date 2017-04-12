@@ -1,7 +1,7 @@
 package library;
 
 /**
- * Created by andrey on 21/03/16.
+ * Created by alex on 10/04/17.
  */
 public class Constants {
 

@@ -1,7 +1,9 @@
 package Server;
 
 import Server.SearchStrategyPackage.*;
-import library.*;
+import library.Constants;
+import library.Student;
+
 import javax.swing.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -22,7 +24,7 @@ public class Session implements Runnable {
     private Model tableModel;
     private Model searchTableModel;
 
-    public Session(Socket socket, Server server) {
+    Session(Socket socket, Server server) {
         jTextArea = server.getTextArea();
         jTextArea.append("New session \n");
         tableModel = new Model();
@@ -38,7 +40,21 @@ public class Session implements Runnable {
         }
     }
 
-    public void runSession() throws IOException, ClassNotFoundException {
+    Model getTableModel() {
+        return tableModel;
+    }
+
+    void stopSession() {
+        try {
+            inputStream.close();
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void runSession() throws IOException, ClassNotFoundException {
         jTextArea.append("Run session\n");
         String command;
         jTextArea.append("Client connected\n");
@@ -86,7 +102,7 @@ public class Session implements Runnable {
     }
 
     private void deleteStudent() throws IOException, ClassNotFoundException {
-        jTextArea.append("Delete student... \n");
+        jTextArea.append("Delete student \n");
         List<Student> searchStudent = new SearchContext(getSearchContext()).executeSearchStrategy(tableModel.getStudents());
         tableModel.getStudents().removeAll(searchStudent);
         sendStudentArray(tableModel);
@@ -201,7 +217,7 @@ public class Session implements Runnable {
         sendStudentArray(table);
     }
 
-    public JTextArea getTextArea() {
+    JTextArea getTextArea() {
         return jTextArea;
     }
 
@@ -209,24 +225,10 @@ public class Session implements Runnable {
     public void run() {
         try {
             runSession();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
 
-    public Model getTableModel() {
-        return tableModel;
-    }
 
-    public void stopSession(){
-        try {
-            inputStream.close();
-            outputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
 }

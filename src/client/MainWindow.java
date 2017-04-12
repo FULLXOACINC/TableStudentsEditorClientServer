@@ -51,8 +51,7 @@ public class MainWindow {
         fileMenu.add(openItem);
         openItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-//                fileWorker.openFile();
-//                studentTable.updateComponent();
+                openFile();
             }
         });
 
@@ -61,7 +60,7 @@ public class MainWindow {
         fileMenu.add(saveItem);
         saveItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-//                fileWorker.saveFile();
+                saveFile();
             }
         });
 
@@ -122,6 +121,7 @@ public class MainWindow {
                 Frame clientDialog = new JFrame("Настройка подключения");
                 JToolBar toolBar1 = new JToolBar();
                 clientDialog.setVisible(true);
+                clientDialog.setLocationRelativeTo(null);
                 clientDialog.setSize(400, 20);
                 clientDialog.setResizable(false);
                 JLabel label = new JLabel("Host: ");

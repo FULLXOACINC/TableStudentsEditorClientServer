@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 
 /**
- * Created by andrey on 11/03/16.
+ * Created by alex on 13/03/17.
  */
 public class AddComponent {
 
