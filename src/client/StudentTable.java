@@ -128,39 +128,39 @@ public class StudentTable extends JComponent {
         return (int)((studentSize - 1)/ studentOnPage) + 1;
     }
 
-    public void nextPage() {
+    private void nextPage() {
             client.sendToServer(Constants.NEXT_PAGE);
-            client.sendToServer(getNamePanel());
+            client.sendToServer(namePanel);
             update();
     }
 
-    public void chengeStudentOnPage(String size) {
+    private void chengeStudentOnPage(String size) {
         client.sendToServer(Constants.CHANGE_NUMBER_STUDENT_ON_PAGE);
-        client.sendToServer(getNamePanel());
+        client.sendToServer(namePanel);
         client.sendToServer(size);
         update();
     }
 
-    public void prevPage() {
+    private void prevPage() {
         client.sendToServer(Constants.PREV_PAGE);
-        client.sendToServer(getNamePanel());
+        client.sendToServer(namePanel);
         update();
     }
 
-    public void firstPage() {
+    private void firstPage() {
         if (currentPage > 1) {
             client.sendToServer(Constants.FIRST_PAGE);
-            client.sendToServer(getNamePanel());
+            client.sendToServer(namePanel);
             update();
         }
     }
 
-    public void lastPage() {
+    private void lastPage() {
         client.sendToServer(Constants.LAST_PAGE);
-        client.sendToServer(getNamePanel());
+        client.sendToServer(namePanel);
         update();
     }
-    public void updatePanel(){
+    private void updatePanel(){
         client.getUpdatePanel(namePanel);
     }
 
@@ -169,7 +169,7 @@ public class StudentTable extends JComponent {
         updateComponent();
     }
 
-    public void updateComponent(){
+    private void updateComponent(){
         removeAll();
         makePanel();
         revalidate();
@@ -189,15 +189,11 @@ public class StudentTable extends JComponent {
         panel.add(label, gridBagConstraints);
     }
 
-    public String getNamePanel() {
-        return namePanel;
-    }
-
-    public void setNamePanel(String namePanel) {
+    void setNamePanel(String namePanel) {
         this.namePanel = namePanel;
     }
 
-    public void setClient(Client client) {
+    void setClient(Client client) {
         this.client = client;
     }
 
@@ -206,15 +202,15 @@ public class StudentTable extends JComponent {
         return tableModel;
     }
 
-    public void setStudentSize(int studentSize) {
+    void setStudentSize(int studentSize) {
         this.studentSize = studentSize;
     }
 
-    public void setCurrentPage(int currentPage) {
+    void setCurrentPage(int currentPage) {
         this.currentPage = currentPage;
     }
 
-    public void setStudentOnPage(int studentOnPage) {
+    void setStudentOnPage(int studentOnPage) {
         this.studentOnPage = studentOnPage;
     }
 

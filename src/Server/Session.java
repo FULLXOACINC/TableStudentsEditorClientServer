@@ -94,7 +94,7 @@ public class Session implements Runnable {
                     changeStudentOnPage();
                     break;
                 default:
-                    jTextArea.append("Wrong command " + command);
+                    jTextArea.append("Wrong command \n" + command);
                     break;
             }
         }
