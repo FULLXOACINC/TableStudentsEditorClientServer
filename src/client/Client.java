@@ -24,7 +24,7 @@ public class Client {
     private Socket socket;
     private int port;
 
-    public Client(MainWindow mainWindow, String host, int port) {
+    Client(MainWindow mainWindow, String host, int port) {
         this.mainWindow = mainWindow;
         studentTable = mainWindow.getStudentTable();
         searchPanel = mainWindow.getSearchPanel();
@@ -55,7 +55,7 @@ public class Client {
         }
     }
 
-    public void getUpdatePanel(String where) {
+    void getUpdatePanel(String where) {
         if (where.equals(Constants.MAIN_PANEL)) {
             getUpdatePanel(studentTable);
         } else {
@@ -63,7 +63,7 @@ public class Client {
         }
     }
 
-    public void getUpdatePanel(StudentTable studentTable) {
+    private void getUpdatePanel(StudentTable studentTable) {
         try {
             studentTable.getTableModel().setStudents((List<Student>) inputStream.readObject());
             studentTable.setStudentSize((int) inputStream.readObject());

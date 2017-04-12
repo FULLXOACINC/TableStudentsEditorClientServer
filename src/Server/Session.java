@@ -57,7 +57,7 @@ public class Session implements Runnable {
     private void runSession() throws IOException, ClassNotFoundException {
         jTextArea.append("Run session\n");
         String command;
-        jTextArea.append("Client connected\n");
+        jTextArea.append("client connected\n");
         while (server.getRun()) {
             command = (String) inputStream.readObject();
             if (command.equals("Exit")) break;
@@ -98,7 +98,7 @@ public class Session implements Runnable {
                     break;
             }
         }
-        server.getTextArea().append("Client exit\n");
+        server.getTextArea().append("client exit\n");
     }
 
     private void deleteStudent() throws IOException, ClassNotFoundException {
