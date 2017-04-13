@@ -79,6 +79,7 @@ public class Client {
     private void createSocket() {
         try {
             socket = new Socket(host, port);
+            socket.setSoTimeout(3000);
             mainWindow.setConnect(true);
             JOptionPane.showMessageDialog
                     (null, "Вы подключились к " + host + ":" + port, "INFO", JOptionPane.INFORMATION_MESSAGE);

@@ -122,7 +122,7 @@ public class MainWindow {
                 clientDialog.setVisible(true);
                 clientDialog.setLocationRelativeTo(null);
                 clientDialog.setSize(400, 20);
-                clientDialog.setResizable(false);
+                clientDialog.setResizable(true);
                 JLabel label = new JLabel("Host: ");
                 toolBar1.add(label);
                 host = new JTextField("127.0.0.1", 16);

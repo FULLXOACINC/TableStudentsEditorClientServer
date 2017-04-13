@@ -34,11 +34,11 @@ class FileWorker {
     private final String STUDENTS = "students";
     private final String EXTENSION = "xml";
     private Model tableModel;
-    private JTextArea textArea;
+    private Server server;
 
     FileWorker(Session serverSession){
         tableModel = serverSession.getTableModel();
-        textArea = serverSession.getTextArea();
+        server = serverSession.getServer();
     }
 
     void saveFile(String saveName){
@@ -84,9 +84,9 @@ class FileWorker {
                     transformer.transform(source, result);
 
                 }
-            textArea.append("Save "+saveName);
+            server.log("Save "+saveName+"\n");
         } catch (ParserConfigurationException | TransformerException pce) {
-            textArea.append("Can not save "+saveName);
+            server.log("Can not save "+saveName+"\n");
             JOptionPane.showMessageDialog(null, "Не удалось сохранить файл", "Ошибка", JOptionPane.ERROR_MESSAGE | JOptionPane.OK_OPTION);
         }
     }
@@ -139,9 +139,9 @@ class FileWorker {
 
                 };
                 saxParser.parse(new File(fileName+"."+EXTENSION), handler);
-                textArea.append("Open "+fileName);
+                server.log("Open "+fileName+"\n");
             } catch (Exception e) {
-                textArea.append("Can not open "+fileName);
+                server.log("Can not open "+fileName+"\n");
                 e.printStackTrace();
             }
         }

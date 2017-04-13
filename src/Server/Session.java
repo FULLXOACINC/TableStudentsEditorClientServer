@@ -4,7 +4,6 @@ import Server.SearchStrategyPackage.*;
 import library.Constants;
 import library.Student;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -18,15 +17,13 @@ import java.util.List;
 public class Session implements Runnable {
 
     private Server server;
-    private JTextArea jTextArea;
     private ObjectOutputStream outputStream;
     private ObjectInputStream inputStream;
     private Model tableModel;
     private Model searchTableModel;
 
     Session(Socket socket, Server server) {
-        jTextArea = server.getTextArea();
-        jTextArea.append("New session \n");
+        server.log("New session \n");
         tableModel = new Model();
         this.server = server;
         try {
@@ -35,7 +32,7 @@ public class Session implements Runnable {
             inputStream = new ObjectInputStream(socket.getInputStream());
             runSession();
         } catch (Exception e) {
-            jTextArea.append("ERROR.\n");
+            server.log("ERROR.\n");
             e.printStackTrace();
         }
     }
@@ -54,14 +51,18 @@ public class Session implements Runnable {
 
     }
 
+    public Server getServer() {
+        return server;
+    }
+
     private void runSession() throws IOException, ClassNotFoundException {
-        jTextArea.append("Run session\n");
+        server.log("Run session\n");
         String command;
-        jTextArea.append("client connected\n");
-        while (server.getRun()) {
+        server.log("Client connected\n");
+        while (true) {
             command = (String) inputStream.readObject();
-            if (command.equals("Exit")) break;
-            jTextArea.append("New command from client " + command + "\n");
+            if (command.equals("Exit")||!server.getRun()) break;
+            server.log("New command from client " + command + "\n");
             switch (command) {
                 case Constants.OPEN_FILE:
                     openFile();
@@ -94,22 +95,22 @@ public class Session implements Runnable {
                     changeStudentOnPage();
                     break;
                 default:
-                    jTextArea.append("Wrong command \n" + command);
+                    server.log("Wrong command \n" + command);
                     break;
             }
         }
-        server.getTextArea().append("client exit\n");
+        server.log("client exit\n");
     }
 
     private void deleteStudent() throws IOException, ClassNotFoundException {
-        jTextArea.append("Delete student \n");
+        server.log("Delete student \n");
         List<Student> searchStudent = new SearchContext(getSearchContext()).executeSearchStrategy(tableModel.getStudents());
         tableModel.getStudents().removeAll(searchStudent);
         sendStudentArray(tableModel);
     }
 
     private void searchStudent() throws IOException, ClassNotFoundException {
-        jTextArea.append("Search student... \n");
+        server.log("Search student \n");
         searchTableModel = new Model();
         List<Student> searchStudent = new SearchContext(getSearchContext()).executeSearchStrategy(tableModel.getStudents());
         for (Student student : searchStudent)
@@ -135,7 +136,7 @@ public class Session implements Runnable {
 
     private void addStudent() throws IOException, ClassNotFoundException {
         Student student = (Student) inputStream.readObject();
-        jTextArea.append("Add new student " + student.getLastName() + " "
+        server.log("Add new student " + student.getLastName() + " "
                 + student.getFirstName() + "\n");
         tableModel.addStudent(student);
         sendStudentArray(tableModel);
@@ -143,14 +144,14 @@ public class Session implements Runnable {
 
     private void saveFile() throws IOException, ClassNotFoundException {
         String fileName = (String) inputStream.readObject();
-        jTextArea.append("Try save file " + fileName + "\n");
+        server.log("Try save file " + fileName + "\n");
         FileWorker fileHandler = new FileWorker(this);
         fileHandler.saveFile(fileName);
     }
 
     private void openFile() throws IOException, ClassNotFoundException {
         String fileName = (String) inputStream.readObject();
-        jTextArea.append("Try open file " + fileName + "\n");
+        server.log("Try open file " + fileName + "\n");
         FileWorker fileHandler = new FileWorker(this);
         fileHandler.openXMLFile(fileName);
         sendStudentArray(tableModel);
@@ -177,7 +178,7 @@ public class Session implements Runnable {
 
     private void nextPage() throws IOException, ClassNotFoundException {
         String typeOfPanel = (String) inputStream.readObject();
-        jTextArea.append("Command get from " + typeOfPanel + "\n");
+        server.log("Command get from " + typeOfPanel + "\n");
         Model table = (typeOfPanel.equals(Constants.MAIN_PANEL)) ? tableModel : searchTableModel;
         table.nextPage();
         sendStudentArray(table);
@@ -185,7 +186,7 @@ public class Session implements Runnable {
 
     private void prevPage() throws IOException, ClassNotFoundException {
         String typeOfPanel = (String) inputStream.readObject();
-        jTextArea.append("Command get from " + typeOfPanel + "\n");
+        server.log("Command get from " + typeOfPanel + "\n");
         Model table = (typeOfPanel.equals(Constants.MAIN_PANEL)) ? tableModel : searchTableModel;
         table.prevPage();
         sendStudentArray(table);
@@ -193,7 +194,7 @@ public class Session implements Runnable {
 
     private void firstPage() throws IOException, ClassNotFoundException {
         String typeOfPanel = (String) inputStream.readObject();
-        jTextArea.append("Command get from " + typeOfPanel + "\n");
+        server.log("Command get from " + typeOfPanel + "\n");
         Model table = (typeOfPanel.equals(Constants.MAIN_PANEL)) ? tableModel : searchTableModel;
         table.firstPage();
         sendStudentArray(table);
@@ -201,7 +202,7 @@ public class Session implements Runnable {
 
     private void lastPage() throws IOException, ClassNotFoundException {
         String typeOfPanel = (String) inputStream.readObject();
-        jTextArea.append("Command get from " + typeOfPanel + "\n");
+        server.log("Command get from " + typeOfPanel + "\n");
         Model table = (typeOfPanel.equals(Constants.MAIN_PANEL)) ? tableModel : searchTableModel;
         table.lastPage();
         sendStudentArray(table);
@@ -209,16 +210,12 @@ public class Session implements Runnable {
 
     private void changeStudentOnPage() throws IOException, ClassNotFoundException {
         String typeOfPanel = (String) inputStream.readObject();
-        jTextArea.append("Command get from " + typeOfPanel + "\n");
+        server.log("Command get from " + typeOfPanel + "\n");
         Model table = (typeOfPanel.equals(Constants.MAIN_PANEL)) ? tableModel : searchTableModel;
         String change = (String) inputStream.readObject();
-        jTextArea.append("Change student on page number on" + change + "\n");
+        server.log("Change student on page number on " + change + "\n");
         table.setStudentOnPage(Integer.parseInt(change));
         sendStudentArray(table);
-    }
-
-    JTextArea getTextArea() {
-        return jTextArea;
     }
 
     @Override

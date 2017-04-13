@@ -2,7 +2,6 @@ package Server;
 
 
 import library.AddComponent;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -91,6 +90,10 @@ public class Server {
 
         return toolBar;
 
+    }
+    void log(String text){
+        if(run)
+            textArea.append(text);
     }
 
     public static void main(String[] args) {
